@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrito de Compra - Ejercicio Evaluable</title>
+  <link rel="stylesheet" href="carrito-de-la-compra.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🛒 Carrito de Compra</h1>
+    <p class="info">Los productos se guardan automáticamente en localStorage</p>
+    
+    <!-- Formulario para añadir productos -->
+    <div class="form-agregar">
+      <input 
+        type="text" 
+        id="inputNombre" 
+        placeholder="Nombre del producto..."
+        autocomplete="off"
+      >
+      <input 
+        type="number" 
+        id="inputPrecio" 
+        placeholder="Precio..."
+        min="0"
+        step="0.01"
+      >
+      <button id="btnAgregar">Añadir al carrito</button>
+    </div>
+
+    <!-- Lista de productos -->
+    <ul id="listaProductos">
+      <!-- Aquí se renderizarán los productos dinámicamente -->
+    </ul>
+
+    <!-- Total del carrito -->
+    <div class="total" id="total">
+      <!-- Aquí se mostrará el total -->
+    </div>
+  </div>
+
+  <footer>
+    <p>Alumno/a: _____________________</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
