@@ -158,9 +158,19 @@ return;
 carrito.forEach(producto =>{
 const li = document.createElement("li"); 
 const texto = document.createElement("span"); 
-texto.textContent = `${producto.nombre}`;
+texto.textContent = `${producto.nombre} - ${producto.precio.toFixed(2)} euros`;
+
+const btnEliminar = document.createElement("button");
+btnEliminar.textContent = "eliminar"; 
+btnEliminar.addEventListener("click", ()=>{
+    eliminarProducto(producto.id); 
+}); 
+li.appendChild(texto); 
+li.appendChild(btnEliminar);
+listaProductos.appendChild(li); 
 });
 
+calcularTotal();
 }
 
 /**
@@ -171,6 +181,9 @@ function calcularTotal() {
     // 1. Usar reduce() para sumar todos los precios del carrito
     // 2. Mostrar el total en el elemento #total
     // 3. Formato sugerido: "Total: XX.XX €"
+
+const total= carrito.reduce((suma, producto) => suma + producto.precio, 0); 
+totalDiv.textContent = `total: ${total.toFixed(2)} euros`; 
 }
 
 
@@ -179,12 +192,25 @@ function calcularTotal() {
 // ==========================================
 
 // TO-DO: Añadir event listener al botón "Añadir"
+btnAgregar.addEventListener("click", ()=>{
+agregarProducto(inputNombre.value, inputPrecio.value); 
+});
 // btnAgregar.addEventListener('click', () => {
 //     agregarProducto(inputNombre.value, inputPrecio.value);
 // });
 
 // TO-DO: Permitir añadir con Enter en los inputs
+inputNombre.addEventListener("keypress", (e)=>{
+    if(e.key === "Enter"){
+        agregarProducto(inputNombre.value, inputPrecio.value); 
+    }
+}); 
 
+inputPrecio.addEventListener("keypress", (e)=>{
+    if (e.key === "Enter") {
+        agregarProducto(inputNombre.value, inputPrecio.value);
+    }
+});
 
 // ==========================================
 // INICIALIZACIÓN
@@ -198,11 +224,15 @@ function inicializar() {
     
     // TO-DO: Implementar
     // 1. Cargar carrito desde localStorage
+    carrito = localStorage(); 
     // 2. Renderizar el carrito
+    renderizarCarrito();
     // 3. Dar foco al input de nombre
+    inputNombre.focus(); 
     
     console.log('✅ Aplicación inicializada');
 }
 
 // TO-DO: Llamar a inicializar() cuando cargue la página
+window.addEventListener("load", inicializar); 
 // inicializar();
