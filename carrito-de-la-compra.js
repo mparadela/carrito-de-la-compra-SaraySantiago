@@ -106,8 +106,7 @@ renderizarCarrito();
 inputNombre.value =""; 
 inputPrecio.value = ""; 
 inputNombre.focus(); 
-
-
+};
 /**
  * Elimina un producto del carrito por su ID
  * @param {number} id - ID del producto a eliminar
@@ -120,13 +119,13 @@ function eliminarProducto(id) {
     // 4. Llamar a renderizarCarrito()
      const confirmar = confirm("seguro que quieres eliminar este producto?"); 
 
-    if (confimar){
+    if (confirmar){
     carrito = carrito.filter(producto => producto.id !== id); 
     guardarCarrito(); 
     renderizarCarrito();
     }
 }
-}
+
 
 
 // ==========================================
@@ -200,13 +199,13 @@ agregarProducto(inputNombre.value, inputPrecio.value);
 // });
 
 // TO-DO: Permitir añadir con Enter en los inputs
-inputNombre.addEventListener("keypress", (e)=>{
+inputNombre.addEventListener("keydown", (e)=>{
     if(e.key === "Enter"){
         agregarProducto(inputNombre.value, inputPrecio.value); 
     }
 }); 
 
-inputPrecio.addEventListener("keypress", (e)=>{
+inputPrecio.addEventListener("keydown", (e)=>{
     if (e.key === "Enter") {
         agregarProducto(inputNombre.value, inputPrecio.value);
     }
@@ -224,7 +223,7 @@ function inicializar() {
     
     // TO-DO: Implementar
     // 1. Cargar carrito desde localStorage
-    carrito = localStorage(); 
+    carrito = cargarCarrito(); 
     // 2. Renderizar el carrito
     renderizarCarrito();
     // 3. Dar foco al input de nombre
