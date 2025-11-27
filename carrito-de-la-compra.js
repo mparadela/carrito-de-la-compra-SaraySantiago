@@ -10,7 +10,11 @@
 let carrito = [];
 
 // TO-DO: Obtener referencias al DOM
-
+const inputNombre = document.getElementById("inputNombre"); 
+const inputPrecio = document.getElementById("inputPrecio"); 
+const btnAgregar = document.getElementById("btnAgregar"); 
+const listaProductos = document.getElementById("listaProductos"); 
+const totalDiv = document.getElementById("total"); 
 
 // ==========================================
 // FUNCIONES DE LOCALSTORAGE
@@ -24,6 +28,8 @@ function guardarCarrito() {
     // TO-DO: Implementar
     // 1. Convertir el array 'carrito' a JSON con JSON.stringify()
     // 2. Guardarlo en localStorage con la clave 'carrito'
+const carritoJSON = JSON.stringify(carrito);
+localStorage.setItem("carrito", carritoJSON); 
 }
 
 /**
@@ -37,6 +43,17 @@ function cargarCarrito() {
     // 2. Si existe, parsearlo con JSON.parse() y devolverlo
     // 3. Si no existe, devolver array vacío []
     // 4. Usar try-catch para manejar errores de parseo
+try {
+    const datos = localStorage.getItem("carrito");
+    if (datos) {
+        return JSON.parse(datos); 
+    } else{
+        return [];
+}
+} catch (error) {
+    console.error("error al cargar carrito", error);
+    return []; 
+}
 }
 
 
@@ -68,7 +85,28 @@ function agregarProducto(nombre, precio) {
     // 6. Llamar a guardarCarrito()
     // 7. Llamar a renderizarCarrito()
     // 8. Limpiar los inputs
+nombre = nombre.trim(); 
+precio = parseFloat(precio); 
+
+if (nombre === "" || isNaN(precio) || precio <=0){
+alert ("porfavor introduce datos validos"); 
+return; 
 }
+
+const producto = {
+    id:generarId(), 
+    nombre: nombre, 
+    precio: precio
+}; 
+
+carrito.push(producto); 
+guardarCarrito(); 
+renderizarCarrito(); 
+
+inputNombre.value =""; 
+inputPrecio.value = ""; 
+inputNombre.focus(); 
+
 
 /**
  * Elimina un producto del carrito por su ID
@@ -80,6 +118,14 @@ function eliminarProducto(id) {
     // 2. Si confirma, filtrar el array 'carrito' eliminando el producto con ese ID
     // 3. Llamar a guardarCarrito()
     // 4. Llamar a renderizarCarrito()
+     const confirmar = confirm("seguro que quieres eliminar este producto?"); 
+
+    if (confimar){
+    carrito = carrito.filter(producto => producto.id !== id); 
+    guardarCarrito(); 
+    renderizarCarrito();
+    }
+}
 }
 
 
@@ -101,6 +147,20 @@ function renderizarCarrito() {
     //    - Botón "Eliminar" con data-id
     // 5. Añadir event listener al botón eliminar
     // 6. Llamar a calcularTotal()
+
+listaProductos.innerHTML =""; 
+if (carrito.length === 0){
+listaProductos.innerHTML = "<li>El carrito esta vacio</li>"; 
+totalDiv.textContent = "";
+return; 
+}
+
+carrito.forEach(producto =>{
+const li = document.createElement("li"); 
+const texto = document.createElement("span"); 
+texto.textContent = `${producto.nombre}`;
+});
+
 }
 
 /**
